@@ -1,13 +1,19 @@
 import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
-import 'firebase/app';
-
+import firebase from 'firebase';
+import { useEffect } from 'react';
 import { auth } from '../firebase/firebase';
 
 export default function Login() {
+    
+    useEffect(() => {
+        document.title = 'Login';
+    }, []);
+
+
     return (
         <div id="login-page">
             <div id="login-card">
-                <h2>Welcome to Unichat!</h2>
+                <h2>Welcome to The Chatter!</h2>
                 <div
                     className="login-button google"
                     onClick={() => auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider())}

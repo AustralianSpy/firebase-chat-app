@@ -5,17 +5,27 @@ import { AuthProvider } from './contexts/auth-context';
 import './styles/styles.css';
 
 const Login = lazy(() => import('./components/login'));
-const Chat = lazy(() => import('./components/chat'));
+const Chats = lazy(() => import('./components/chats'));
 
 export default function App() {
   return (
     <div>
       <Router>
-        <Suspense fallback={<p>Loading...</p>}>
+        <Suspense fallback={
+          <div className="suspense-body">
+             <div className="load-wrapp">
+                <div className="load-3">
+                  <div className="line"></div>
+                  <div className="line"></div>
+                  <div className="line"></div>
+                </div>
+              </div>
+          </div>
+        }>
           <AuthProvider>
             <Switch>
               <Route path={ROUTES.LOGIN} component={Login} />
-              <Route path={ROUTES.CHAT} component={Chat} />
+              <Route path={ROUTES.CHATS} component={Chats} />
             </Switch>
           </AuthProvider>
         </Suspense>
