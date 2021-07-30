@@ -16,8 +16,10 @@ export const AuthProvider = ( {children }) => {
             setUser(user);
             setLoading(false);
             if (user) {
+                console.log('HAS USER');
                 history.push(ROUTES.CHATS);
             } else {
+                console.log('NO USER YET');
                 history.push(ROUTES.LOGIN);
             }
         })

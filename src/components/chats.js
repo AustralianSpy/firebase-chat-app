@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ChatEngine } from 'react-chat-engine';
 import { auth } from '../firebase/firebase';
@@ -25,13 +25,15 @@ export default function Chats() {
 
     useEffect(() => {
         if(!user) {
-            history.push(ROUTES.LOGIN);
+            history.push('/');
             return;
         }
 
+        document.title = 'Chats';
+
         axios.get('https://api.chatengine.io/users/me/', {
             headers: {
-                "project-id": "19223a19-555b-45f9-8871-ba2f7bd61c2f",
+                "project-id": process.env.REACT_APP_CHAT_ENGINE_ID,
                 "user-name": user.email,
                 "user-secret": user.uid,
             }
@@ -51,12 +53,16 @@ export default function Chats() {
 
                     axios.post('https://api.chatengine.io/users/',
                         formdata,
-                        { headers: { "private-key": "32bf282f-6f05-4dd1-9cac-5333eb1f25bb" } }
+                        { headers: { "private-key": process.env.REACT_APP_CHAT_ENGINE_KEY } }
                     )
                     .then(() => setLoading(false))
                     .catch((error) => console.log(error))
                 })
         })
+        console.log('USER', user);
+        console.log('UID', user.uid);
+        console.log('EMAIL', user.email);
+        console.log('KEY', process.env.REACT_APP_CHAT_ENGINE_ID);
     }, [user, history]);
     
     return user?.email || !loading ? (
@@ -74,7 +80,7 @@ export default function Chats() {
             </div>
             <ChatEngine 
                 height="calc(100vh - 66px)"
-                projectID="19223a19-555b-45f9-8871-ba2f7bd61c2f"
+                projectID={process.env.REACT_APP_CHAT_ENGINE_ID}
                 userName={user.email}
                 userSecret={user.uid}
             />
